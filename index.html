@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>성과급 우수 대상 판정 보고서</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f6f8; --surface:#ffffff; --ink:#18233a; --muted:#5b667a; --line:#dde2ea;
+  --accent:#0b7a6b; --accent-soft:#dff3ee; --warn:#b4472f; --warn-soft:#fbe9e4; --bar:#c9d3e3;
+  --shadow:0 1px 2px rgba(24,35,58,.06);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1624; --surface:#172034; --ink:#e8edf6; --muted:#9aa6bd; --line:#27324a;
+    --accent:#4fd1b8; --accent-soft:#15373a; --warn:#f08a70; --warn-soft:#3a2420; --bar:#34425f; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1624; --surface:#172034; --ink:#e8edf6; --muted:#9aa6bd; --line:#27324a;
+  --accent:#4fd1b8; --accent-soft:#15373a; --warn:#f08a70; --warn-soft:#3a2420; --bar:#34425f; --shadow:none;
+}
+*{box-sizing:border-box;margin:0}
+html{background:var(--bg)}
+body{font-family:"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.65;font-size:16px;-webkit-font-smoothing:antialiased;
+  padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.wrap{max-width:960px;margin:0 auto;padding:clamp(20px,5vw,56px) clamp(16px,4vw,32px) 64px}
+header{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:clamp(28px,6vw,56px)}
+header p{font-size:.88rem;color:var(--muted)}
+header strong{display:block;font-size:1rem;color:var(--ink)}
+.theme{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:.85rem;cursor:pointer}
+.theme:focus-visible,.rowlink:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.hero h1{font-size:clamp(1.9rem,6.2vw,3.4rem);line-height:1.22;font-weight:900;letter-spacing:-.03em;max-width:18ch;word-break:keep-all}
+.hero .lede{margin-top:18px;color:var(--muted);max-width:46ch;word-break:keep-all}
+.rule{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.rule span{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 14px;font-weight:500;box-shadow:var(--shadow)}
+.rule b{color:var(--accent)}
+
+section{margin-top:clamp(40px,7vw,72px)}
+h2{font-size:1.25rem;font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
+.sub{color:var(--muted);font-size:.92rem;margin-bottom:20px}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.stat dt{font-size:.82rem;color:var(--muted)}
+.stat dd{font-size:1.6rem;font-weight:700;margin-top:2px;letter-spacing:-.02em}
+.stat dd small{font-size:.85rem;font-weight:400;color:var(--muted);margin-left:2px}
+.stat.hi dd{color:var(--accent)}
+
+.tablebox{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:.82rem;font-weight:500;color:var(--muted);background:color-mix(in srgb,var(--bg) 60%,var(--surface))}
+td.num,th.num{text-align:right}
+tr:last-child td{border-bottom:0}
+tr.pass{background:linear-gradient(90deg,var(--accent-soft),transparent 70%)}
+.id{color:var(--muted);font-size:.88rem}
+.score{display:flex;align-items:center;gap:10px;justify-content:flex-end}
+.track{width:72px;height:6px;background:var(--bar);border-radius:3px;position:relative;overflow:visible}
+.track i{display:block;height:100%;border-radius:3px;background:var(--ink)}
+.track::after{content:"";position:absolute;left:90%;top:-4px;width:2px;height:14px;background:var(--accent)}
+.chk{font-weight:700}
+.chk.ok{color:var(--accent)}
+.chk.no{color:var(--warn)}
+.badge{display:inline-block;min-width:3.2em;text-align:center;padding:3px 12px;border-radius:999px;font-weight:700;font-size:.88rem}
+.badge.y{background:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .badge.y{color:#0b1b1a}}
+:root[data-theme="dark"] .badge.y{color:#0b1b1a}
+.badge.n{color:var(--muted);background:transparent}
+
+.why{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.why article{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:10px;padding:16px 18px}
+.why article.pass{border-left-color:var(--accent)}
+.why h3{font-size:1rem;margin-bottom:4px}
+.why p{font-size:.92rem;color:var(--muted);word-break:keep-all}
+.why em{font-style:normal;font-weight:700}
+.why em.ok{color:var(--accent)} .why em.no{color:var(--warn)}
+
+pre{background:var(--ink);color:var(--bg);border-radius:10px;padding:16px 18px;overflow-x:auto;font-size:.92rem;font-family:ui-monospace,"SF Mono",Consolas,monospace}
+:root[data-theme="dark"] pre{background:#0b111d;color:#e8edf6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) pre{background:#0b111d;color:#e8edf6}}
+ul.notes{padding-left:1.2em;color:var(--muted);font-size:.92rem}
+ul.notes li{margin-top:6px;word-break:keep-all}
+footer{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
+
+@media (max-width:720px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .why{grid-template-columns:1fr}
+  thead{display:none}
+  table,tbody,tr,td{display:block;width:100%}
+  tr{padding:12px 16px;border-bottom:1px solid var(--line)}
+  tr:last-child{border-bottom:0}
+  td{border:0;padding:5px 0;display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:right}
+  td::before{content:attr(data-l);color:var(--muted);font-size:.85rem;text-align:left}
+  td.num,td .score{justify-content:flex-end}
+}
+@media print{
+  body{background:#fff} .theme{display:none} .stat,.tablebox,.why article{break-inside:avoid;box-shadow:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p><strong>성과급 우수 대상 판정 보고서</strong>근태점수 및 기본급 기준 판정 결과</p>
+    <button class="theme" id="theme" type="button" aria-label="화면 색상 바꾸기">다크 모드</button>
+  </header>
+
+  <div class="hero">
+    <h1 id="headline"></h1>
+    <p class="lede">사원 4명의 근태점수와 기본급을 기준과 비교해, 두 조건을 모두 충족한 직원에게만 &lsquo;우수&rsquo;를 표시했습니다.</p>
+    <div class="rule" aria-label="판정 기준">
+      <span>근태점수 <b>90점 이상</b></span>
+      <span>기본급 <b>300만원 미만</b></span>
+      <span>두 조건 모두 충족 시 <b>우수</b></span>
+    </div>
+  </div>
+
+  <section aria-labelledby="s1">
+    <h2 id="s1">한눈에 보기</h2>
+    <p class="sub">원본 엑셀 표(A1:F5)를 기준으로 집계했습니다.</p>
+    <dl class="stats" id="stats"></dl>
+  </section>
+
+  <section aria-labelledby="s2">
+    <h2 id="s2">사원별 판정 결과</h2>
+    <p class="sub">막대의 초록 눈금은 근태점수 90점 기준선입니다.</p>
+    <div class="tablebox">
+      <table>
+        <thead><tr>
+          <th>사원</th><th>부서</th><th class="num">기본급</th><th class="num">근태점수</th>
+          <th>근태 90 이상</th><th>기본급 300만 미만</th><th>판정</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="s3">
+    <h2 id="s3">판정 사유</h2>
+    <p class="sub">우수가 아닌 직원은 어느 조건에서 걸렸는지 함께 적었습니다.</p>
+    <div class="why" id="why"></div>
+  </section>
+
+  <section aria-labelledby="s4">
+    <h2 id="s4">엑셀 적용 수식</h2>
+    <p class="sub">F2 셀에 입력한 뒤 F5까지 아래로 복사합니다.</p>
+    <pre><code>=IF(AND(E2&gt;=90,D2&lt;3000000),"우수","-")</code></pre>
+    <ul class="notes">
+      <li>&ldquo;90 이상&rdquo;은 <code>&gt;=</code>, &ldquo;300만원 미만&rdquo;은 <code>&lt;</code>를 써야 경계값(정확히 90점, 정확히 300만원)이 기준대로 판정됩니다.</li>
+      <li>기준을 자주 바꾼다면 기준값을 별도 셀에 적고 <code>$I$1</code>, <code>$I$2</code>처럼 참조하세요.</li>
+    </ul>
+  </section>
+
+  <footer>원본: 근태점수·기본급 표(사원번호 A101~A104) &middot; 판정은 표에 있는 값만으로 계산했으며, 성과급 지급액(G열)은 아직 산정하지 않았습니다.</footer>
+</div>
+
+<script>
+(function(){
+  var data=[
+    {id:"A101",name:"김민준",dept:"총무부",pay:3200000,att:85},
+    {id:"A102",name:"서지우",dept:"영업부",pay:2800000,att:92},
+    {id:"A103",name:"이도윤",dept:"기획실",pay:4100000,att:78},
+    {id:"A104",name:"허윤서",dept:"총무부",pay:2900000,att:95}
+  ];
+  var ATT=90, PAY=3000000;
+  var won=function(n){return n.toLocaleString("ko-KR")};
+  data.forEach(function(d){d.okA=d.att>=ATT; d.okP=d.pay<PAY; d.pass=d.okA&&d.okP});
+  var passN=data.filter(function(d){return d.pass}).length;
+  var avgA=data.reduce(function(s,d){return s+d.att},0)/data.length;
+  var avgP=data.reduce(function(s,d){return s+d.pay},0)/data.length;
+
+  document.getElementById("headline").textContent="사원 "+data.length+"명 중 "+passN+"명이 우수 대상으로 판정됐습니다";
+
+  document.getElementById("stats").innerHTML=[
+    ["전체 인원",data.length,"명",""],
+    ["우수 대상",passN,"명","hi"],
+    ["평균 근태점수",avgA.toFixed(1),"점",""],
+    ["평균 기본급",won(Math.round(avgP/10000)),"만원",""]
+  ].map(function(s){return '<div class="stat '+s[3]+'"><dt>'+s[0]+'</dt><dd>'+s[1]+'<small>'+s[2]+'</small></dd></div>'}).join("");
+
+  document.getElementById("rows").innerHTML=data.map(function(d){
+    return '<tr class="'+(d.pass?"pass":"")+'">'+
+      '<td data-l="사원"><span><b>'+d.name+'</b> <span class="id">'+d.id+'</span></span></td>'+
+      '<td data-l="부서">'+d.dept+'</td>'+
+      '<td class="num" data-l="기본급">'+won(d.pay)+'</td>'+
+      '<td class="num" data-l="근태점수"><span class="score"><span class="track" aria-hidden="true"><i style="width:'+d.att+'%"></i></span>'+d.att+'</span></td>'+
+      '<td data-l="근태 90 이상"><span class="chk '+(d.okA?"ok":"no")+'">'+(d.okA?"충족":"미충족")+'</span></td>'+
+      '<td data-l="기본급 300만 미만"><span class="chk '+(d.okP?"ok":"no")+'">'+(d.okP?"충족":"미충족")+'</span></td>'+
+      '<td data-l="판정"><span class="badge '+(d.pass?"y":"n")+'">'+(d.pass?"우수":"-")+'</span></td></tr>';
+  }).join("");
+
+  document.getElementById("why").innerHTML=data.map(function(d){
+    var a='근태점수 '+d.att+'점 <em class="'+(d.okA?"ok":"no")+'">'+(d.okA?"기준 충족":"기준 미달")+'</em>';
+    var p='기본급 '+won(d.pay)+'원 <em class="'+(d.okP?"ok":"no")+'">'+(d.okP?"기준 충족":"300만원 이상")+'</em>';
+    var r=d.pass?"두 조건을 모두 충족해 우수로 판정했습니다.":(!d.okA&&!d.okP?"두 조건 모두 충족하지 못했습니다.":"한 가지 조건을 충족하지 못했습니다.");
+    return '<article class="'+(d.pass?"pass":"")+'"><h3>'+d.name+' ('+d.id+') &middot; '+(d.pass?"우수":"-")+'</h3><p>'+a+', '+p+'. '+r+'</p></article>';
+  }).join("");
+
+  var root=document.documentElement, btn=document.getElementById("theme");
+  var dark=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches;
+  function apply(){root.setAttribute("data-theme",dark?"dark":"light");btn.textContent=dark?"라이트 모드":"다크 모드"}
+  btn.addEventListener("click",function(){dark=!dark;apply()});
+  apply();
+})();
+</script>
+</body>
+</html>
